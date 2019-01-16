@@ -1,13 +1,14 @@
 package com.qa.pokeAPI.domain;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Abilities
 {
 	private Ability ability;
+	
+	@JsonProperty("is_hidden")
 	private Boolean isHidden;
 	private int slot;
 	
@@ -40,7 +41,7 @@ public class Abilities
 	@Override
 	public String toString()
 	{
-		return "abilities{" + "Ability=" + ability + ", is_hidden=" + isHidden + ", slot='" + slot + '\'' + '}';
+		return "\n{" + "name=" + ability + ", is_hidden=" + isHidden + ", slot='" + slot + '\'' + '}';
 	}
 	
 }
