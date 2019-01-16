@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 public class PokemonData
 {
 	private String name;
-	private List<Ability> abilities;
+	private List<Abilities> abilities;
 	
 	public String getName()
 	{
@@ -23,13 +23,13 @@ public class PokemonData
 	}
 	
 
-	public List<Ability> getAbilities()
+	public List<Abilities> getAbilities()
 	{
 		return abilities;
 	}
 
 
-	public void setAbilities(List<Ability> abilities)
+	public void setAbilities(List<Abilities> abilities)
 	{
 		this.abilities = abilities;
 	}
