@@ -4,13 +4,16 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.springframework.data.annotation.Id;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class PokemonData
 {
+	@Id
+	private String id;
+	
 	private String name;
 	private List<Abilities> abilities;
-	
 	@JsonProperty("base_experience")
 	private int baseExperience;
 	private List<Forms> forms;
@@ -19,7 +22,8 @@ public class PokemonData
 	private int height;
 	@JsonProperty("held_items")
 	private List<HeldItems> heldItems;
-	private int id;
+	@JsonProperty("id")
+	private int pokeId;
 	@JsonProperty("is_default")
 	private Boolean isDefault;
 	@JsonProperty("location_area_encounters")
@@ -105,14 +109,14 @@ public class PokemonData
 		this.heldItems = heldItems;
 	}
 
-	public int getId()
+	public int getPokeId()
 	{
-		return id;
+		return pokeId;
 	}
 
-	public void setId(int id)
+	public void setPokeId(int id)
 	{
-		this.id = id;
+		this.pokeId = pokeId;
 	}
 
 	public Boolean getIsDefault()
@@ -233,7 +237,7 @@ public class PokemonData
 				+ "\n forms='" + forms + "',"
 				+ "\n game_indices='" + gameIndices + "', "
 				+ "\n held_items='" + heldItems + "',"
-				+ "\n id='" + id + "',"
+				+ "\n pokeId='" + pokeId + "',"
 				+ "\n isDefault=" + isDefault + "',"
 				+ "\n location_area_encounters=" + locationEncounters + "',"
 				+ "\n height='" + height + "',"
