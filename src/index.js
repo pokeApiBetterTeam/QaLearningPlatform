@@ -7,6 +7,7 @@ import Main from './components/Main';
 import PokemonInfo from './components/PokemonInfo';
 import History from "./components/history";
 import Navigation from "./components/Navigation";
+import './components/App.css';
 ReactDOM.render(
 
   <div >

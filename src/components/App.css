@@ -34,3 +34,12 @@
     transform: rotate(360deg);
   }
 }
+
+.table-wrapper-scroll-y {
+display: block;
+margin-left: 20px;
+max-height: 200px;
+max-width: 90%;
+overflow-y: auto;
+-ms-overflow-style: -ms-autohiding-scrollbar;
+}

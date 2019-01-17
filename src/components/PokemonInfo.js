@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import './App.css';
-import { Table } from 'reactstrap';
+import { Table, Row } from 'reactstrap';
 
 const API_URL = 'http://pokeapi.salestock.net/api/v2/';
 class PokemonInfo extends Component {
@@ -12,24 +11,12 @@ class PokemonInfo extends Component {
    name : null ,
    weight : null,
    searchString: '',
+   pokemonStats:[],
+   pokemonAbilities:[],
    pokemons : [],
    pic : 'https://i.ytimg.com/vi/JjDsRN89sIA/maxresdefault.jpg?auto=compress&cs=tinysrgb&h=350',
   }
 }
-  getPokemon(name){
-    var url = API_URL + 'pokemon/'+ name ;
-    axios.get(url)
-    .then(
-      res => {
-        if(res.status==200){this.setState({
-          pic : res.data.sprites.front_default,
-          name: res.data.name,
-          weight: res.data.weight,
-        });
-      };
-    })
-    .catch(err=>console.log(err));
-  }
 
   componentWillMount() {
     var url =  API_URL + 'pokemon/?limit=100';
@@ -43,14 +30,52 @@ class PokemonInfo extends Component {
          });
    }
 
+   getPokemon(name){
+     var url = API_URL + 'pokemon/'+ name ;
+     axios.get(url)
+     .then(
+       res => {
+         console.log(res.data.abilities)
+         if(res.status==200){
+          this.setState({
+            pokemonStats : res.data.stats,
+            pokemonAbilities : res.data.abilities,
+            pic : res.data.sprites.front_default,
+            name: res.data.name,
+            weight: res.data.weight,
+         });
+
+       };
+     })
+     .catch(err=>console.log(err));
+   }
+
+
        onChange(event) {
          this.setState({ searchString: event.target.value });
        }
 
-       async filterList (event)  {
-         console.log( event.target.value);
-         await this.setState({ searchString: event.target.value });
-         this.getPokemon(this.state.searchString);
+       async pickedPokemon(pokemon) {
+         if(pokemon != this.state.searchString){
+           await this.setState({ searchString: pokemon });
+           this.getPokemon(this.state.searchString);
+         }
+       }
+
+       createPokemonStats(){
+         let returnStats = [];
+         for(let i=0; i<this.state.pokemonStats.length;i++){
+           returnStats.push(<tr><th>{this.state.pokemonStats[i].stat.name}</th> <td>{this.state.pokemonStats[i].base_stat}</td></tr>);
+         }
+         return returnStats;
+       }
+
+       createPokemonAbilities(){
+         let returnAbilities = [];
+         for(let i=0; i<this.state.pokemonAbilities.length; i++){
+           returnAbilities.push(<tr><th>{this.state.pokemonAbilities[i].ability.name}</th></tr>);
+         }
+         return returnAbilities;
        }
 
        render() {
@@ -61,17 +86,21 @@ class PokemonInfo extends Component {
             <div>
               search for a pokemon
             </div>
-            <Table  >
+            <div class="table-wrapper-scroll-y">
+            <Table  hover bordered>
             {filteredNames.map(pokemonName =>
-              <tr onClick={this.filterList.bind(this)}>{pokemonName}</tr>
+              <tr onClick={() => this.pickedPokemon(pokemonName)}>{pokemonName}</tr>
             )}
             </Table>
+            </div>
             <img  src={this.state.pic} alt="what" width="200" height="200"/>
 
             <div>
               <Table hover>
                 <tr><th>Name:</th> <td>{this.state.name}</td></tr>
                 <tr><th>Weight:</th> <td>{this.state.weight} </td></tr>
+                {this.createPokemonStats()}
+                {this.createPokemonAbilities()}
               </Table>
             </div>
            </div>
