@@ -3,16 +3,19 @@ package com.qa.pokeAPI.apiInteraction;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.qa.pokeAPI.domain.PokemonData;
 import com.qa.pokeAPI.repository.PokemonRepository;
 
+@Service
 public class API
 {
 	@Autowired
