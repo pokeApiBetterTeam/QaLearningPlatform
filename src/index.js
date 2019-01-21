@@ -8,16 +8,19 @@ import PokemonInfo from './components/PokemonInfo';
 import History from "./components/history";
 import Navigation from "./components/Navigation";
 import './components/App.css';
+import { Table, Row } from 'reactstrap';
 ReactDOM.render(
 
   <div >
-          <Navigation/>
+    <Navigation/>
+    <div className="mainContainer">
     <Router history={History} >
       <div>
         <Route path='/' exact={true} component={Main}/>
         <Route path='/pokemon' exact={true} component={PokemonInfo}/>
       </div>
     </Router>
+    </div>
   </div>
    ,document.getElementById('root'));
 

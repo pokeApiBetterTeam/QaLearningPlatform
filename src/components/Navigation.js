@@ -1,19 +1,32 @@
 import React, { Component } from 'react';
-
+import {Navbar,NavItem, Nav,MenuItem,NavDropdown} from  'react-bootstrap';
 class Navigation extends Component{
   render(){
   return(
-    <nav class="navbar navbar-default">
-     <div class="container-fluid">
-      <a class="navbar-brand" href="/">Home</a>
-     <ul class="nav navbar-nav">
-        <li><a href="/pokemon">Pokemon</a></li>
-        <li><a href="/">Berries</a></li>
-        <li><a href="/">Items</a></li>
-      </ul>
-     </div>
-    </nav>)
+    <Navbar inverse>
+      <Navbar.Header>
+        <Navbar.Brand>
+          <a href="/">Home</a>
+        </Navbar.Brand>
+      </Navbar.Header>
 
+        <a  href="/pokemon">
+          Pokemon
+        </a>
+        <a  >
+          Link
+        </a>
+        <Nav>
+        <NavDropdown  title="Dropdown" id="basic-nav-dropdown">
+          <MenuItem >Action</MenuItem>
+          <MenuItem >Another action</MenuItem>
+          <MenuItem >Something else here</MenuItem>
+          <MenuItem divider />
+          <MenuItem >Separated link</MenuItem>
+        </NavDropdown>
+      </Nav>
+    </Navbar>
+  )
   }
 
 }

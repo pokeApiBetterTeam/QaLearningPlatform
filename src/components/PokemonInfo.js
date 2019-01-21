@@ -82,27 +82,31 @@ class PokemonInfo extends Component {
          let filteredNames = this.state.pokemons.filter(pokemon => pokemon.toLowerCase().search(this.state.searchString.toLowerCase()) !== -1)
          return(
            <div>
-            <input type="text" value={this.state.searchString}  onChange={this.onChange.bind(this)} />
-            <div>
-              search for a pokemon
-            </div>
-            <div class="table-wrapper-scroll-y">
-            <Table  hover bordered>
-            {filteredNames.map(pokemonName =>
-              <tr onClick={() => this.pickedPokemon(pokemonName)}>{pokemonName}</tr>
-            )}
-            </Table>
-            </div>
-            <img  src={this.state.pic} alt="what" width="200" height="200"/>
+             <div className="listContainer">
+                 <div>
+                   search for a pokemon
+                   <input type="text" value={this.state.searchString}  onChange={this.onChange.bind(this)} />
+                 </div>
 
-            <div>
-              <Table hover>
+                  <div class="table-wrapper-scroll-y">
+                  <Table  hover bordered>
+                  {filteredNames.map(pokemonName =>
+                    <tr onClick={() => this.pickedPokemon(pokemonName)}>{pokemonName}</tr>
+                  )}
+                  </Table>
+                </div>
+            </div>
+
+            <div className="infoContainer">s
+              <img  src={this.state.pic} className="imgContainer"/>
+                <Table className="rightInfo">
                 <tr><th>Name:</th> <td>{this.state.name}</td></tr>
                 <tr><th>Weight:</th> <td>{this.state.weight} </td></tr>
+                </Table>
                 {this.createPokemonStats()}
                 {this.createPokemonAbilities()}
-              </Table>
             </div>
+
            </div>
          )
        }
