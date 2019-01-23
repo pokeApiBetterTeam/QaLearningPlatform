@@ -20,7 +20,7 @@ class PokemonInfo extends Component {
 }
 
   componentWillMount() {
-    var url =  API_URL + 'pokemon/?limit=100';
+    var url =  API_URL + 'pokemon/?limit=800';
      axios.get(url)
          .then(res => {
            res.data.results.map(item => this.setState(
@@ -32,7 +32,7 @@ class PokemonInfo extends Component {
    }
 
    getPokemon(name){
-     var url = API_URL + 'pokemon/'+ name ;
+     var url = 'PokemonName/'+ name ;
      axios.get(url)
      .then(
        res => {
@@ -103,7 +103,7 @@ class PokemonInfo extends Component {
 
             <div className="infoContainer">
               <img  src={this.state.pic} className="imgContainer"/>
-              
+
                 <Table className="rightInfo" >
                 <tbody>
                 <tr><th>Name:</th><td>{this.state.name}</td></tr>
