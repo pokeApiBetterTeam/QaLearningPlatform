@@ -8,7 +8,6 @@ import PokemonInfo from './components/PokemonInfo';
 import History from "./components/history";
 import Navigation from "./components/Navigation";
 import './components/App.css';
-import { Table, Row } from 'reactstrap';
 ReactDOM.render(
 
   <div >

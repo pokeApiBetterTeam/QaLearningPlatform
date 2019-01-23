@@ -5,9 +5,7 @@ class Navigation extends Component{
   return(
     <Navbar inverse>
       <Navbar.Header>
-        <Navbar.Brand>
           <a href="/">Home</a>
-        </Navbar.Brand>
       </Navbar.Header>
 
         <a  href="/pokemon">

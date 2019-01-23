@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios';
-import { Table, Row } from 'reactstrap';
+import { Table } from 'reactstrap';
 
 const API_URL = 'http://pokeapi.salestock.net/api/v2/';
 class PokemonInfo extends Component {
@@ -10,6 +10,7 @@ class PokemonInfo extends Component {
   this.state = {
    name : null ,
    weight : null,
+   height : null,
    searchString: '',
    pokemonStats:[],
    pokemonAbilities:[],
@@ -35,7 +36,7 @@ class PokemonInfo extends Component {
      axios.get(url)
      .then(
        res => {
-         console.log(res.data.abilities)
+         console.log(res.data)
          if(res.status==200){
           this.setState({
             pokemonStats : res.data.stats,
@@ -43,6 +44,7 @@ class PokemonInfo extends Component {
             pic : res.data.sprites.front_default,
             name: res.data.name,
             weight: res.data.weight,
+            height: res.data.height,
          });
 
        };
@@ -64,16 +66,18 @@ class PokemonInfo extends Component {
 
        createPokemonStats(){
          let returnStats = [];
-         for(let i=0; i<this.state.pokemonStats.length;i++){
-           returnStats.push(<tr><th>{this.state.pokemonStats[i].stat.name}</th> <td>{this.state.pokemonStats[i].base_stat}</td></tr>);
+         returnStats.push(<th>Basic Stats</th>);
+          for(let i=0; i<this.state.pokemonStats.length;i++){
+           returnStats.push(<tr><th key={this.state.pokemonStats[i].stat.name}>{this.state.pokemonStats[i].stat.name}</th><td>{this.state.pokemonStats[i].base_stat}</td></tr>);
          }
          return returnStats;
        }
 
        createPokemonAbilities(){
          let returnAbilities = [];
+         returnAbilities.push(<th>Abilities</th>);
          for(let i=0; i<this.state.pokemonAbilities.length; i++){
-           returnAbilities.push(<tr><th>{this.state.pokemonAbilities[i].ability.name}</th></tr>);
+           returnAbilities.push(<tr>{this.state.pokemonAbilities[i].ability.name}</tr>);
          }
          return returnAbilities;
        }
@@ -88,23 +92,40 @@ class PokemonInfo extends Component {
                    <input type="text" value={this.state.searchString}  onChange={this.onChange.bind(this)} />
                  </div>
 
-                  <div class="table-wrapper-scroll-y">
-                  <Table  hover bordered>
-                  {filteredNames.map(pokemonName =>
-                    <tr onClick={() => this.pickedPokemon(pokemonName)}>{pokemonName}</tr>
-                  )}
+                  <div className="table-wrapper-scroll-y">
+                  <Table hover>
+                  <tbody>
+                  {filteredNames.map(pokemonName=><tr key={pokemonName} onClick={()=>this.pickedPokemon(pokemonName)}>{pokemonName}</tr>)}
+                  </tbody>
                   </Table>
                 </div>
             </div>
 
-            <div className="infoContainer">s
+            <div className="infoContainer">
               <img  src={this.state.pic} className="imgContainer"/>
-                <Table className="rightInfo">
-                <tr><th>Name:</th> <td>{this.state.name}</td></tr>
-                <tr><th>Weight:</th> <td>{this.state.weight} </td></tr>
+              
+                <Table className="rightInfo" >
+                <tbody>
+                <tr><th>Name:</th><td>{this.state.name}</td></tr>
+                <tr><th>Weight:</th><td>{this.state.weight}</td></tr>
+                <tr><th>Height:</th><td>{this.state.height}</td></tr>
+                </tbody>
                 </Table>
-                {this.createPokemonStats()}
-                {this.createPokemonAbilities()}
+
+                {this.state.name==null ? null :
+                              <div>
+                                  <div className="underLeftContainer">
+                                  <Table>
+                                  <tbody>{this.createPokemonStats()}</tbody>
+                                  </Table>
+                                  </div>
+                                  <div className="underRightContainer">
+                                  <Table>
+                                  <tbody>{this.createPokemonAbilities()}</tbody>
+                                  </Table>
+                                  </div>
+                                </div>
+                              }
             </div>
 
            </div>

@@ -40,6 +40,20 @@
   float:right;
 }
 
+.underLeftContainer {
+  padding-left: 10px;
+  width:40%;
+  height: 60%;
+  float:left;
+}
+
+.underRightContainer {
+  padding-left: 10px;
+  width:40%;
+  height: 60%;
+  float:right;
+}
+
 .listContainer {
   background-color:white;
   -webkit-box-shadow: 6px 10px 55px -9px rgba(0,0,0,0.75);
