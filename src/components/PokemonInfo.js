@@ -20,7 +20,7 @@ class PokemonInfo extends Component {
 }
 
   componentWillMount() {
-    var url =  API_URL + 'pokemon/?limit=800';
+    var url =  '/AllPokemon';
      axios.get(url)
          .then(res => {
            res.data.results.map(item => this.setState(
@@ -41,6 +41,7 @@ class PokemonInfo extends Component {
           this.setState({
             pokemonStats : res.data.stats,
             pokemonAbilities : res.data.abilities,
+            pokemonType : res.data.types,
             pic : res.data.sprites.front_default,
             name: res.data.name,
             weight: res.data.weight,
@@ -82,6 +83,15 @@ class PokemonInfo extends Component {
          return returnAbilities;
        }
 
+       createPokemonTypes(){
+         let returnTypes = [];
+         returnTypes.push(<th>Type</th>);
+         for(let i=0; i<this.state.pokemonType.length; i++){
+           returnTypes.push(<tr>{this.state.pokemonType[i].type.name}</tr>);
+         }
+         return returnTypes;
+       }
+
        render() {
          let filteredNames = this.state.pokemons.filter(pokemon => pokemon.toLowerCase().search(this.state.searchString.toLowerCase()) !== -1)
          return(
@@ -121,7 +131,10 @@ class PokemonInfo extends Component {
                                   </div>
                                   <div className="underRightContainer">
                                   <Table>
-                                  <tbody>{this.createPokemonAbilities()}</tbody>
+                                  <tbody>{this.createPokemonAbilities()}
+                                  {this.createPokemonTypes()}
+                                  </tbody>
+
                                   </Table>
                                   </div>
                                 </div>

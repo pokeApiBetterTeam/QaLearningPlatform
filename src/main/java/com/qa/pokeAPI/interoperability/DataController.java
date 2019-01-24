@@ -8,15 +8,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qa.pokeAPI.apiInteraction.API;
-import com.qa.pokeAPI.domain.PokemonData;
-import com.qa.pokeAPI.repository.PokemonRepository;
+import com.qa.pokeAPI.domain.pokemonData.PokemonData;
+import com.qa.pokeAPI.domain.pokemonList.PokemonList;
+import com.qa.pokeAPI.repository.PokemonDataRepository;
+import com.qa.pokeAPI.repository.PokemonListRepository;
 
 @RestController
 public class DataController
 {
 
 	@Autowired
-	PokemonRepository pokemonRepository;
+	PokemonDataRepository pokemonRepository;
+
+	@Autowired
+	PokemonListRepository pokemonList;
 
 	@Autowired
 	API apiInteractions;
@@ -38,6 +43,27 @@ public class DataController
 		}
 
 		return new ResponseEntity<PokemonData>(retrievedData, HttpStatus.OK);
+	}
+
+	@GetMapping(value = "/AllPokemon")
+	public ResponseEntity<PokemonList> GetAllPokemon()
+	{
+		System.out.println("GetTriggered");
+		PokemonList retrievedData;
+
+		if (pokemonList.findById(0) == null)
+		{
+			int searchLimit = apiInteractions.GetNumOfPokemon();
+			retrievedData = apiInteractions.GetListOfPokemon(searchLimit);
+
+			System.out.println("getting pokemonList from API");
+		} else
+		{
+			retrievedData = pokemonList.findById(0);
+			System.out.println("found in DB");
+		}
+
+		return new ResponseEntity<PokemonList>(retrievedData, HttpStatus.OK);
 	}
 
 }
