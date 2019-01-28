@@ -11,8 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.qa.pokeAPI.domain.itemData.ItemData;
+import com.qa.pokeAPI.domain.itemList.ItemList;
 import com.qa.pokeAPI.domain.pokemonData.PokemonData;
 import com.qa.pokeAPI.domain.pokemonList.PokemonList;
+import com.qa.pokeAPI.repository.ItemDataRepository;
+import com.qa.pokeAPI.repository.ItemListRepository;
 import com.qa.pokeAPI.repository.PokemonDataRepository;
 import com.qa.pokeAPI.repository.PokemonListRepository;
 
@@ -20,10 +24,16 @@ import com.qa.pokeAPI.repository.PokemonListRepository;
 public class API
 {
 	@Autowired
-	private PokemonDataRepository dataRepository;
+	private PokemonDataRepository pokemonRepository;
+	
+	@Autowired
+	private ItemDataRepository itemRepository;
 	
 	@Autowired
 	private PokemonListRepository pokemonList;
+	
+	@Autowired
+	private ItemListRepository itemList;
 	
 	RestTemplate restTemplate = new RestTemplate();
 	HttpHeaders headers = new HttpHeaders();
@@ -40,7 +50,15 @@ public class API
 	{	
         ResponseEntity<PokemonData> response = restTemplate.exchange("https://pokeapi.co/api/v2/pokemon/" + pokemonName + "/", HttpMethod.GET, entity, PokemonData.class);
         
-        dataRepository.save(response.getBody());
+        pokemonRepository.save(response.getBody());
+        return response.getBody();
+	}
+	
+	public ItemData GetItemByName(String itemName)
+	{	
+        ResponseEntity<ItemData> response = restTemplate.exchange("https://pokeapi.co/api/v2/item/" + itemName + "/", HttpMethod.GET, entity, ItemData.class);
+        
+        itemRepository.save(response.getBody());
         return response.getBody();
 	}
 	
@@ -50,11 +68,24 @@ public class API
 		return response.getBody().getCount();
 	}
 	
+	public int GetNumOfItems()
+	{
+		ResponseEntity<ItemList> response = restTemplate.exchange("https://pokeapi.co/api/v2/pokemon/", HttpMethod.GET, entity, ItemList.class);
+		return response.getBody().getCount();
+	}
+	
 	public PokemonList GetListOfPokemon(int limit)
 	{
 		ResponseEntity<PokemonList> response = restTemplate.exchange("https://pokeapi.co/api/v2/pokemon/?limit=" + limit, HttpMethod.GET, entity, PokemonList.class);
 		pokemonList.save(response.getBody());
 		return response.getBody();
 		
+	}
+	
+	public ItemList GetListOfItems(int limit)
+	{
+		ResponseEntity<ItemList> response = restTemplate.exchange("https://pokeapi.co/api/v2/item/?limit=" + limit, HttpMethod.GET, entity, ItemList.class);
+		itemList.save(response.getBody());
+		return response.getBody();
 	}
 }

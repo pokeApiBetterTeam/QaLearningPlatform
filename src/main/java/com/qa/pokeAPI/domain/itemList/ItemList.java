@@ -1,4 +1,4 @@
-package com.qa.pokeAPI.domain.pokemonList;
+package com.qa.pokeAPI.domain.itemList;
 
 import java.util.List;
 
@@ -7,13 +7,13 @@ import org.springframework.data.annotation.Id;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class PokemonList
+public class ItemList
 {
 	@Id
 	private int id;
 
 	private int count;
-	private List<PokemonListResult> results;
+	private List<ItemListResult> results;
 
 	public int getId()
 	{
@@ -35,12 +35,12 @@ public class PokemonList
 		this.count = count;
 	}
 
-	public List<PokemonListResult> getResults()
+	public List<ItemListResult> getResults()
 	{
 		return results;
 	}
 
-	public void setResults(List<PokemonListResult> results)
+	public void setResults(List<ItemListResult> results)
 	{
 		this.results = results;
 	}

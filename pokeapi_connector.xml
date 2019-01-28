@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets"
+	xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:json="http://www.mulesoft.org/schema/mule/json"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+http://www.mulesoft.org/schema/mule/json http://www.mulesoft.org/schema/mule/json/current/mule-json.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/sockets http://www.mulesoft.org/schema/mule/sockets/current/mule-sockets.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="4fd40256-1087-4053-9c3f-11ff2054b187" >
+		<http:listener-connection host="localhost" port="8082" />
+	</http:listener-config>
+	<http:request-config name="ConnecttoPokeAPI" doc:name="HTTP Request configuration" doc:id="ec099625-1ca8-4b3e-be0f-582c58e4a9e9">
+		<http:request-connection host="pokeapi.co" protocol="HTTPS"/>
+	</http:request-config>
+	<http:request-config name="HTTP_Request_configuration" doc:name="HTTP Request configuration" doc:id="3e921353-3710-4d24-bdd5-f18a8c168711" >
+		<http:request-connection host="localhost" port="8081" />
+	</http:request-config>
+	<http:listener-config name="HTTP_Listener_config1" doc:name="HTTP Listener config" doc:id="2d2fc288-f980-4172-81d6-219212ac3359" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<flow name="pokeapi_connectorFlow" doc:id="fe0622f4-e6de-4203-9a27-b0c5ebc873ee" >
+		<http:listener doc:name="Listener" doc:id="20672866-4ef3-4aad-819c-36b47bd584d1" config-ref="HTTP_Listener_config" path="/search"/>
+		<set-variable value="#[message.payload.Type]" doc:name="Type" doc:id="e31ae20c-a91d-43f6-99f1-55b28793c873" variableName="Type"/>
+		<set-variable value="#[message.payload.Name]" doc:name="Name" doc:id="7c540c7c-937c-4dc0-b670-3616576d66c4" variableName="Name"/>
+		<http:request method="GET" doc:name="Request" doc:id="83f95ec2-bbad-4d64-adba-fe1032edb670" config-ref="ConnecttoPokeAPI" followRedirects="true" path='#["/api/v2//" ++ vars.Type ++ "/" ++ vars.Name]'>
+					</http:request>
+		<ee:transform doc:name="Transform Message" doc:id="ac1f303f-c30d-47ff-b796-70accef920b2" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+		
+	</flow>
+</mule>
